@@ -8,8 +8,8 @@ import 'package:rxdart/rxdart.dart';
 
 class Bloc extends Object with Validators {
   //by adding '_' we made variable private.
-  final _emailController = StreamController<String>.broadcast();
-  final _passwordController = StreamController<String>.broadcast();
+  final _emailController = BehaviorSubject<String>();
+  final _passwordController = BehaviorSubject<String>();
 
   //add data to stream
   Stream<String> get emailGetter =>
@@ -23,6 +23,14 @@ class Bloc extends Object with Validators {
   //retrived data from stream
   get changeEmail => _emailController.sink.add;
   get changePassword => _passwordController.sink.add;
+
+  submit() {
+    final validEmail = _emailController.value;
+    final validPassword = _passwordController.value;
+
+    print('Valid Emial is $validEmail');
+    print('Valid Password is $validPassword');
+  }
 
   dispose() {
     _emailController.close();
